@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29430.225
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCADI-Service", "SCADI-Service\SCADI-Service.csproj", "{87E34B59-FB18-40A9-90F0-9558700CE90A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySqlRepository", "EasyORM\MySqlRepository.csproj", "{AAE5FC43-2E8F-4EB7-9503-7EB7A6CFD70D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87E34B59-FB18-40A9-90F0-9558700CE90A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E34B59-FB18-40A9-90F0-9558700CE90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E34B59-FB18-40A9-90F0-9558700CE90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E34B59-FB18-40A9-90F0-9558700CE90A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAE5FC43-2E8F-4EB7-9503-7EB7A6CFD70D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAE5FC43-2E8F-4EB7-9503-7EB7A6CFD70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAE5FC43-2E8F-4EB7-9503-7EB7A6CFD70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAE5FC43-2E8F-4EB7-9503-7EB7A6CFD70D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7A14666-3719-47F7-8EEA-AE86B8669B2B}
+	EndGlobalSection
+EndGlobal
