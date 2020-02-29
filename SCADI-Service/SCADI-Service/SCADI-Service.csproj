@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\..\WiFree_Service\WiFree_Service\bin\Debug\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="Renci.SshNet">
       <HintPath>..\..\..\WiFree_Service\WiFree_Service\bin\Debug\Renci.SshNet.dll</HintPath>
     </Reference>

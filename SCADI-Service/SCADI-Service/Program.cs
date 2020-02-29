@@ -13,20 +13,17 @@ namespace SCADI_Service
         static void Main(string[] args)
         {
             Client c = new Client();
-            c.Name = "Alejandro";
-            c.First_surname = "Moreno";
-            c.second_surname = "Pujol";
-            c.ci = "95011731386";
-            c.created_at = DateTime.Now;
-            c.updated_at = DateTime.Now;
+            c.Name = "Yolanda";
+            c.FirstSurname = "Tremol";
+            c.SecondSurname = "Pujol";
+            c.Ci = "95011731386";
             c.Save();
 
             var repo = ClientRepository.Instance;
             var todos = repo.All();
             foreach (var item in todos)
             {
-                item.second_surname = "Rodgz";
-                item.Save();
+                Console.WriteLine(item.Name+" "+item.FirstSurname+" "+item.SecondSurname);
             }
             Console.ReadLine();
         }

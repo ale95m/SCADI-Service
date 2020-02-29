@@ -1,5 +1,4 @@
 ﻿using MySqlRepository;
-using MySqlX.XDevAPI.Common;
 using SCADI_Service.Models;
 using System;
 using System.Collections.Generic;

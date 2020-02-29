@@ -53,6 +53,7 @@
     <Compile Include="Base\ColumnsFactory.cs" />
     <Compile Include="Attributes\ShowFormat.cs" />
     <Compile Include="Base\DbColumn.cs" />
+    <Compile Include="Base\Extensions.cs" />
     <Compile Include="Base\TypeFactory.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IStoreRepository.cs" />

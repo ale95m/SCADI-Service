@@ -13,12 +13,10 @@ namespace SCADI_Service.Models
         private ClientRepository Repository { get; } = ClientRepository.Instance;
 
         public string Name { get; set; }
-        public string First_surname { get; set; }
-        public string second_surname { get; set; }
-        public string ci { get; set; }
-        public int service_id { get; set; }
-        public DateTime created_at { get; set; }
-        public DateTime updated_at { get; set; }
+        public string FirstSurname { get; set; }
+        public string SecondSurname { get; set; }
+        public string Ci { get; set; }
+        public int ServiceId { get; set; }
 
         protected override bool Create()
         {

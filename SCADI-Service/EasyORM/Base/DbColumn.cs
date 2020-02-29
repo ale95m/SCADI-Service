@@ -23,7 +23,7 @@ namespace MySqlRepository.Base
             Property = property;
             DbType = TypeFactory.ToDbType(Property.PropertyType);
             var columnName = CheckAttribute(attributes, typeof(ColumnName));
-            Name = columnName == null ? property.Name : ((ColumnName)columnName).Name;
+            Name = columnName == null ? property.Name.ToUnderscoreCase() : ((ColumnName)columnName).Name;
             var showFormat = CheckAttribute(attributes, typeof(ShowFormat));
             ShowFormat = showFormat == null ? "{0}" : ((ShowFormat)showFormat).Format;
         }
