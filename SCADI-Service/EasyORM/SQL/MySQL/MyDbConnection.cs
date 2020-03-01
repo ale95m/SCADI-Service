@@ -34,12 +34,17 @@ namespace MySqlRepository
 
         }
 
-        static public DataTable ResponseQuery(string query)
+        static public DataTable ResponseQuery(string query, MySqlParameter[] parameters = null)
         {
             var con = Con();
             con.Open();
             DataSet ds = new DataSet();
-            MySqlDataAdapter da = new MySqlDataAdapter(query, con);
+            MySqlCommand command = new MySqlCommand(query, con);
+            MySqlDataAdapter da = new MySqlDataAdapter(command);
+            if (parameters != null)
+            {
+                command.Parameters.AddRange(parameters);
+            }
             da.Fill(ds);
             da.Dispose();
             con.Close();

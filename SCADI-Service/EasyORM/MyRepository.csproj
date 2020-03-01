@@ -7,8 +7,8 @@
     <ProjectGuid>{AAE5FC43-2E8F-4EB7-9503-7EB7A6CFD70D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyORM</RootNamespace>
-    <AssemblyName>EasyORM</AssemblyName>
+    <RootNamespace>MyRepository</RootNamespace>
+    <AssemblyName>MyRepository</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -46,19 +46,24 @@
   <ItemGroup>
     <Compile Include="Attributes\ColumnName.cs" />
     <Compile Include="Attributes\NotMaped.cs" />
-    <Compile Include="BaseModel.cs" />
-    <Compile Include="BaseRepository.cs" />
-    <Compile Include="BaseStoreRepository.cs" />
-    <Compile Include="BaseStoreModel.cs" />
-    <Compile Include="Base\ColumnsFactory.cs" />
+    <Compile Include="Base\BaseModel.cs" />
+    <Compile Include="Base\BaseRepository.cs" />
+    <Compile Include="Base\BaseStoreRepository.cs" />
+    <Compile Include="Base\BaseStoreModel.cs" />
+    <Compile Include="SQL\ColumnsFactory.cs" />
     <Compile Include="Attributes\ShowFormat.cs" />
-    <Compile Include="Base\DbColumn.cs" />
-    <Compile Include="Base\Extensions.cs" />
-    <Compile Include="Base\TypeFactory.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="IStoreRepository.cs" />
-    <Compile Include="MyDbConnection.cs" />
+    <Compile Include="SQL\DbColumn.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="SQL\TypeFactory.cs" />
+    <Compile Include="Base\IRepository.cs" />
+    <Compile Include="Base\IStoreRepository.cs" />
+    <Compile Include="SQL\Enums.cs" />
+    <Compile Include="SQL\IResponseQuery.cs" />
+    <Compile Include="SQL\MySQL\MyDbConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQL\ParameterFactory.cs" />
+    <Compile Include="SQL\MySQL\MySqlResponseQuery.cs" />
+    <Compile Include="SQL\MySQL\MySqlWhere.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

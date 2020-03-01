@@ -13,19 +13,21 @@ namespace SCADI_Service
         static void Main(string[] args)
         {
             Client c = new Client();
-            c.Name = "Yolanda";
-            c.FirstSurname = "Tremol";
-            c.SecondSurname = "Pujol";
+            c.Name = "aaasc";
+            c.FirstSurname = "adc";
+            c.SecondSurname = "asvv";
+
             c.Ci = "95011731386";
             c.Save();
 
-            var repo = ClientRepository.Instance;
-            var todos = repo.All();
+            ClientRepository cr = ClientRepository.Instance;
+            var todos = cr.Where("Name", "aaasc").Where("SecondSurname", "asvv").Get();
             foreach (var item in todos)
             {
-                Console.WriteLine(item.Name+" "+item.FirstSurname+" "+item.SecondSurname);
+                Console.WriteLine(item.Name);
             }
             Console.ReadLine();
+
         }
     }
 }

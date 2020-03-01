@@ -59,10 +59,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyORM\MySqlRepository.csproj">
+    <ProjectReference Include="..\EasyORM\MyRepository.csproj">
       <Project>{aae5fc43-2e8f-4eb7-9503-7eb7a6cfd70d}</Project>
-      <Name>MySqlRepository</Name>
+      <Name>MyRepository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ssh\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
