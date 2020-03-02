@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository.Attributes
 {
-    class ShowFormat : Attribute
+    public class ShowFormat : Attribute
     {
         public string Format { get; private set; }
         public ShowFormat(string format)

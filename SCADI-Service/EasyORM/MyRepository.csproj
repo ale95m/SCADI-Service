@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyRepository</RootNamespace>
     <AssemblyName>MyRepository</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,6 +51,8 @@
     <Compile Include="Base\BaseRepository.cs" />
     <Compile Include="Base\BaseStoreRepository.cs" />
     <Compile Include="Base\BaseStoreModel.cs" />
+    <Compile Include="Base\IBaseModel.cs" />
+    <Compile Include="Base\IBaseStoreModel.cs" />
     <Compile Include="SQL\ColumnsFactory.cs" />
     <Compile Include="Attributes\ShowFormat.cs" />
     <Compile Include="SQL\DbColumn.cs" />

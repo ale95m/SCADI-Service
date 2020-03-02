@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlRepository;
 using MySqlRepository.Base;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public abstract class BaseStoreRepository<T> :BaseRepository<T>, IStoreRepository<T> where T : BaseStoreModel<T>
+    public abstract class BaseStoreRepository<T> :BaseRepository<T>, IStoreRepository<T> where T : IBaseStoreModel<T>
     {
         protected BaseStoreRepository() : base() { }
         

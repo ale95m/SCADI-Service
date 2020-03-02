@@ -8,7 +8,7 @@ using System.Xml.Schema;
 
 namespace EasyORM.Attributes
 {
-    class ColumnName : Attribute
+    public class ColumnName : Attribute
     {
         public string Name { get; private set; }
         public ColumnName(string name)

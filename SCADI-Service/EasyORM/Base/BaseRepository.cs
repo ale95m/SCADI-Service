@@ -13,7 +13,7 @@ using DbColumn = MySqlRepository.Base.DbColumn;
 
 namespace MySqlRepository
 {
-    public abstract class BaseRepository<T> : IRepository<T> where T : BaseModel
+    public abstract class BaseRepository<T> : IRepository<T> where T : IBaseModel<T>
     {
         public abstract string TableName { get; }
         public virtual string PrimareKey { get; } = "id";

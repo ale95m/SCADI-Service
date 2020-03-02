@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MySqlRepository.Attributes
+namespace SCADI_Service.Models
 {
-    public class NotMaped : Attribute
+    class Service
     {
+        public string Name { get; set; }
     }
 }

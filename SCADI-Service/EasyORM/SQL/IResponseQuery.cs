@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MySqlRepository.SQL
 {
-    public interface IResponseQuery<T> where T : BaseModel
+    public interface IResponseQuery<T> where T : IBaseModel<T>
     {
         IEnumerable<T> Get();
         IResponseQuery<T> OrderBy(OrderByMode orderByMode);

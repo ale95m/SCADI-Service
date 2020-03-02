@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository.SQL.MySql
 {
-    public class MySqlResponseQuery<T> : IResponseQuery<T> where T : BaseModel
+    public class MySqlResponseQuery<T> : IResponseQuery<T> where T : IBaseModel<T>
     {
         IRepository<T> Repository { get; set; }
         public Queue<ISqlWhere> Wheres { get; private set; }

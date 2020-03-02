@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public interface IRepository<T> where T: BaseModel
+    public interface IRepository<T> where T: IBaseModel<T>
     {
         string PrimareKey { get; }
         bool TimeTamps { get; }
