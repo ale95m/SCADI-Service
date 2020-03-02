@@ -1,72 +1,103 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MyRepository.SQL;
+using MyRepository.SQL.MySQL;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MySqlRepository.SQL
+namespace MySqlRepository.SQL.MySql
 {
-    public class MysqlResponseQuery<T> : IResponseQuery<T> where T : BaseModel
+    public class MySqlResponseQuery<T> : IResponseQuery<T> where T : BaseModel
     {
         IRepository<T> Repository { get; set; }
-        Queue<MySqlWhere> Wheres { get; set; }
-        string OrderByColumn { get; set; }
-        bool WhithDeleted { get; set; } = false;
-
+        public Queue<ISqlWhere> Wheres { get; private set; }
+        private string OrderByColumn { get; set; }
+        private bool WhithDeleted { get; set; } = false;
+        private UInt16 ParametersCount { get; set; } = 0;
 
         OrderByMode OrderByMode { get; set; } = OrderByMode.ASC;
 
-        public MysqlResponseQuery(IRepository<T> repository)
+        public MySqlResponseQuery(IRepository<T> repository)
         {
             Repository = repository;
-            Wheres = new Queue<MySqlWhere>();
+            Wheres = new Queue<ISqlWhere>();
         }
 
-        public MysqlResponseQuery<T> IncludeDeleteds()
+        public IResponseQuery<T> IncludeDeleteds()
         {
             WhithDeleted = true;
             return this;
         }
 
 
-        public MysqlResponseQuery<T> OrderBy(OrderByMode orderByMode)
+        public IResponseQuery<T> OrderBy(OrderByMode orderByMode)
         {
             OrderByMode = orderByMode;
             return this;
         }
 
-        public MysqlResponseQuery<T> Where(string columnName, string @operator, object value)
-        {
-            Wheres.Enqueue(new MySqlWhere(Wheres.Count, columnName, value, @operator));
-            return this;
-        }
-        public MysqlResponseQuery<T> Where(string columnName, object value)
-        {
-            Wheres.Enqueue(new MySqlWhere(Wheres.Count, columnName, value, "="));
-            return this;
-        }
-
         public IEnumerable<T> Get()
         {
+            if (Repository.SoftDelete & !WhithDeleted)
+            {
+                this.WhereNull("deleted_at");
+            }
+
             string orderByColumn = string.IsNullOrEmpty(OrderByColumn)
                 ? Repository.PrimareKey
                 : OrderByColumn;
-            int top = Wheres.Count;
-            string wheres = top == 0 ? string.Empty : " WHERE";
-            MySqlParameter[] parameters = new MySqlParameter[top--];
 
-            for (int i = 0; i <= top; i++)
+            string wheres = Wheres.Count == 0 ? string.Empty : " WHERE";
+
+            DbParameter[] parameters = new DbParameter[ParametersCount];
+            ParametersCount = 0;
+
+            while (Wheres.Count>0)
             {
                 var where = Wheres.Dequeue();
-                parameters[i] = where.Parameter;
+                if (where is ISqlWhereComparer)
+                {
+                    parameters[ParametersCount++] = ((ISqlWhereComparer)where).Parameter;
+                }
                 wheres = string.Concat(wheres, where,
-                    i < top ? where.LogicOperator.ToString() : string.Empty
+                    Wheres.Count > 0 ? where.LogicOperator.ToString() : string.Empty
                     );
             }
+
             string sintax = string.Format("SELECT * FROM {0}{1} ORDER BY {2} {3}",
                 Repository.TableName, wheres, orderByColumn, OrderByMode);
             return Repository.ExecuteSelectQuery(sintax, parameters);
+        }
+
+        private void AddWhereComparer(string columnName, string @operator, object value, LogicOperator logicOperator = LogicOperator.AND)
+        {
+            ParametersCount++;
+            Wheres.Enqueue(new MySqlWhereComparer(Wheres.Count, columnName, value, @operator,logicOperator));
+        }
+
+        public IResponseQuery<T> Where(string columnName, string @operator, object value, LogicOperator logicOperator = LogicOperator.AND)
+        {
+            this.AddWhereComparer(columnName, @operator, value, logicOperator);
+            return this;
+        }
+        public IResponseQuery<T> Where(string columnName, object value, LogicOperator logicOperator = LogicOperator.AND)
+        {
+            this.AddWhereComparer(columnName, "=", value, logicOperator);
+            return this;
+        }
+        public IResponseQuery<T> WhereNull(string columnName,LogicOperator logicOperator=LogicOperator.AND)
+        {
+            Wheres.Enqueue(new MySqlWhereNull(columnName, logicOperator));
+            return this;
+        }
+        public IResponseQuery<T> WhereNotNull(string columnName, LogicOperator logicOperator = LogicOperator.AND)
+        {
+            Wheres.Enqueue(new MySqlWhereNotNull(columnName, logicOperator));
+            return this;
         }
     }
 }

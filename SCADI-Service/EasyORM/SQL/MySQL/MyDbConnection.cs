@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace MySqlRepository
 
         }
 
-        static public DataTable ResponseQuery(string query, MySqlParameter[] parameters = null)
+        static public DataTable ResponseQuery(string query, DbParameter[] parameters = null)
         {
             var con = Con();
             con.Open();

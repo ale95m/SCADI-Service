@@ -8,24 +8,14 @@ using System.Threading.Tasks;
 
 namespace SCADI_Service.Models
 {
-    class Client: BaseStoreModel
+    class Client : BaseStoreModel<Client>
     {
-        private ClientRepository Repository { get; } = ClientRepository.Instance;
+        protected override IStoreRepository<Client> Repository => ClientRepository.Instance;
 
-        public string Name { get; set; }
-        public string FirstSurname { get; set; }
-        public string SecondSurname { get; set; }
-        public string Ci { get; set; }
-        public int ServiceId { get; set; }
-
-        protected override bool Create()
-        {
-            return Repository.Create(this);
-        }
-
-        protected override bool Update()
-        {
-            return Repository.Update(this);
-        }
+        public string Name { get;private set; }
+        public string FirstSurname { get; private set; }
+        public string SecondSurname { get; private set; }
+        public string Ci { get; private set; }
+        public int ServiceId { get; private set; }
     }
 }

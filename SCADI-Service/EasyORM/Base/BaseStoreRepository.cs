@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public abstract class BaseStoreRepository<T> :BaseRepository<T>, IStoreRepository<T> where T : BaseModel
+    public abstract class BaseStoreRepository<T> :BaseRepository<T>, IStoreRepository<T> where T : BaseStoreModel<T>
     {
         protected BaseStoreRepository() : base() { }
         
-        public virtual bool Create(T model)
+        public virtual bool Create(BaseStoreModel<T> model)
         {
             MySqlParameter[] parameters = GetStoreValues(model);
             if (parameters.Length == 0)
@@ -33,7 +33,7 @@ namespace MySqlRepository
 
             return MyDbConnection.Query(query, parameters) == 1;
         }
-        public virtual bool Update(T model)
+        public virtual bool Update(BaseStoreModel<T> model)
         {
             MySqlParameter[] parameters = GetUpdateValues(model);
             if (parameters.Length == 0)
@@ -53,7 +53,7 @@ namespace MySqlRepository
             return MyDbConnection.Query(query, parameters) == 1;
         }
 
-        protected virtual MySqlParameter[] GetStoreValues(T model)
+        protected virtual MySqlParameter[] GetStoreValues(BaseStoreModel<T> model)
         {
             int length = ModelColumns.Count();
             MySqlParameter[] parameters = new MySqlParameter[length];
@@ -65,7 +65,7 @@ namespace MySqlRepository
             }
             return parameters;
         }
-        protected virtual MySqlParameter[] GetUpdateValues(T model) => GetStoreValues(model);
+        protected virtual MySqlParameter[] GetUpdateValues(BaseStoreModel<T> model) => GetStoreValues(model);
 
         public int Delete(T model)
         {

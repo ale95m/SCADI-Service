@@ -54,6 +54,11 @@
     <Compile Include="Attributes\ShowFormat.cs" />
     <Compile Include="SQL\DbColumn.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="SQL\ISqlWhereComparer.cs" />
+    <Compile Include="SQL\ISqlWhere.cs" />
+    <Compile Include="SQL\MySQL\MySqlWhereNotNull.cs" />
+    <Compile Include="SQL\MySQL\MySqlWhereNull.cs" />
+    <Compile Include="SQL\MySQL\MySqlWhereNullOrNotNull.cs" />
     <Compile Include="SQL\TypeFactory.cs" />
     <Compile Include="Base\IRepository.cs" />
     <Compile Include="Base\IStoreRepository.cs" />
@@ -63,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQL\ParameterFactory.cs" />
     <Compile Include="SQL\MySQL\MySqlResponseQuery.cs" />
-    <Compile Include="SQL\MySQL\MySqlWhere.cs" />
+    <Compile Include="SQL\MySQL\MySqlWhereComparer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

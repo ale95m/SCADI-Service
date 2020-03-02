@@ -16,6 +16,8 @@ namespace SCADI_Service.Repositories
 
         public override string TableName => "clients";
 
+
+        public override bool SoftDelete => true;
         protected override Client EmptyModel()
         {
             return new Client();

@@ -1,12 +1,15 @@
 ﻿using MySql.Data.MySqlClient;
 using MySqlRepository.Base;
 using MySqlRepository.SQL;
+using MySqlRepository.SQL.MySql;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DbColumn = MySqlRepository.Base.DbColumn;
 
 namespace MySqlRepository
 {
@@ -70,7 +73,7 @@ namespace MySqlRepository
             return Find(id) ?? throw new Exception("Not found");
         }
 
-        IEnumerable<T> IRepository<T>.ExecuteSelectQuery(string query, MySqlParameter[] parameters)
+        IEnumerable<T> IRepository<T>.ExecuteSelectQuery(string query, DbParameter[] parameters)
         {
             var result = MyDbConnection.ResponseQuery(query, parameters);
             return CreateModelCollection(result.Rows);
@@ -78,13 +81,13 @@ namespace MySqlRepository
 
         public IResponseQuery<T> Where(string columnName, string @operator, object value)
         {
-            MysqlResponseQuery<T> query = new MysqlResponseQuery<T>(this);
+            MySqlResponseQuery<T> query = new MySqlResponseQuery<T>(this);
             return query.Where(columnName, @operator, value);
         }
 
         public IResponseQuery<T> Where(string columnName, object value)
         {
-            MysqlResponseQuery<T> query = new MysqlResponseQuery<T>(this);
+            MySqlResponseQuery<T> query = new MySqlResponseQuery<T>(this);
             return query.Where(columnName, value);
         }
     }
