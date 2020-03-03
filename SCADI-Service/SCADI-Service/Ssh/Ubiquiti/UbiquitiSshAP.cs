@@ -1,4 +1,5 @@
 ﻿using SCADI_Service.Models;
+using SCADI_Service.Repositories;
 using SCADI_Service.Ssh.Commands;
 using System;
 using System.Collections.Generic;
@@ -76,15 +77,15 @@ namespace SCADI_Service.Ssh.Ubiquiti
                 {
                     TimeSpan currentUptime = new TimeSpan(0, 0, uptime);
                     DateTime start = DateTime.Now - currentUptime;
-                    connection = new Connection(ap, download, upload, ip, mac, signal, start);
+                    var device= DeviceRepository.Instance.FindByMac(mac,ip);
+                    connection = new Connection(ap, download, upload, ip, mac, signal, start,device);
                     ap.Connections.Add(connection);
                 }
                 else
                 {
-                    //update connection info
                     connection.UpdateInfo(ip, upload, download, signal);
                 }
-                connection.Save();
+                ConnectionRepository.Instance.Save(connection);
             }
         }
         

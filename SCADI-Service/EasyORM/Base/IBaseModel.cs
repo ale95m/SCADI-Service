@@ -1,6 +1,6 @@
 ﻿namespace MySqlRepository
 {
-    public interface IBaseModel<T> where T:IBaseModel<T>
+    public interface IBaseModel
     {
         int Id { get; }
     }

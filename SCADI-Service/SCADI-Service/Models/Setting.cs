@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace SCADI_Service.Models
 {
-    class Setting: BaseStoreModel<Setting>
+    class Setting: BaseModel
     {
-        protected override IStoreRepository<Setting> Repository { get; } = SettingRepository.Instance;
+        public bool UpdateAccessPoint { get; private set; }
 
-        public bool UpdateAccesPoints { get; private set; }
-
-        public void SeAccesUpdatedPoints()
+        public void SeAccessUpdatedPoints()
         {
-            UpdateAccesPoints = true;
+            UpdateAccessPoint = true;
         }
     }
 }

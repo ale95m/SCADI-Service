@@ -64,6 +64,7 @@
     <Compile Include="Repositories\AccessPointRepository.cs" />
     <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\ConnectionRepository.cs" />
+    <Compile Include="Repositories\DeviceRepository.cs" />
     <Compile Include="Repositories\SettingRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Ssh\BaseSsh.cs" />

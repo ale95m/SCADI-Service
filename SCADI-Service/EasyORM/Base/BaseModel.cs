@@ -1,5 +1,7 @@
-﻿using MySqlRepository;
+﻿using MyRepository.Base;
+using MySqlRepository;
 using MySqlRepository.Attributes;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,8 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public abstract class BaseModel<T> : IBaseModel<T> where T : IBaseModel<T>
+    public abstract class BaseModel : IBaseModel
     {
-        [NotMaped]
-        protected abstract IRepository<T> Repository { get; }
         public int Id { get; protected set; } = 0;
     }
 }

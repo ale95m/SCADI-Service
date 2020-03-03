@@ -105,6 +105,16 @@ namespace MySqlRepository
                 : result.Rows[0];
         }
 
+        static public DataRow SelectlastRow(string table)
+        {
+            string query = String.Format("SELECT * FROM {0} ORDER BY DESC LIMIT 1", table);
+                
+            var result = ResponseQuery(query);
+            return result.Rows.Count == 0
+                ? null
+                : result.Rows[0];
+        }
+
         static public DataTable SelectConditionQuery(string table, string condition, params string[] selectFields)
         {
             string select = selectFields.Length > 0 ? String.Join(", ", selectFields) : "*";

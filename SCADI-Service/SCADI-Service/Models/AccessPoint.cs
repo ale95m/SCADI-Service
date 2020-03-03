@@ -2,6 +2,7 @@
 using MySqlRepository.Attributes;
 using SCADI_Service.Repositories;
 using SCADI_Service.Ssh;
+using SCADI_Service.Ssh.Ubiquiti;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ using System.Timers;
 
 namespace SCADI_Service.Models
 {
-    class AccessPoint:BaseModel<AccessPoint>
+    class AccessPoint : BaseModel
     {
-        Timer timer;    
+        Timer timer;
 
         public string Description { get; set; }
         public string SshUser { get; set; }
@@ -26,12 +27,23 @@ namespace SCADI_Service.Models
         public bool Service { get; set; }
         public bool ServiceApplied { get; set; }
 
+
+        ISshAccessPoint _ssh;
         [NotMaped]
-        ISshAccessPoint SSH { get; set; }
+        ISshAccessPoint SSH
+        {
+            get
+            {
+                if (_ssh == null)
+                {
+                    _ssh = new UbiquitiSshAp(this);
+                }
+                return _ssh;
+            }
+        }
         [NotMaped]
         public List<Connection> Connections { get; private set; } = new List<Connection>();
-        [NotMaped]
-        protected override IRepository<AccessPoint> Repository { get; } = AccessPointRepository.Instance;
+
 
         public AccessPoint()
         {
@@ -41,15 +53,11 @@ namespace SCADI_Service.Models
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Update();
+            UpdateConnections();
         }
 
         public void Start() => timer.Start();
         public void Stop() => timer.Stop();
-        public void Update()
-        {
-
-        }
 
         public void UpdateInfo(string description, string ip, int sshPort, string sshUser, string sshPassword, bool alarm, bool service)
         {
@@ -74,6 +82,7 @@ namespace SCADI_Service.Models
                 else
                 {
                     Connections[i].Close();
+                    ConnectionRepository.Instance.Save(Connections[i]);
                     Connections.RemoveAt(i--);
                 }
             }

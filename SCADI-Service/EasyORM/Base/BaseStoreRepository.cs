@@ -9,11 +9,30 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public abstract class BaseStoreRepository<T> :BaseRepository<T>, IStoreRepository<T> where T : IBaseStoreModel<T>
+    public abstract class BaseStoreRepository<T> : BaseRepository<T>, IStoreRepository<T> where T : IBaseModel, new()
     {
         protected BaseStoreRepository() : base() { }
-        
-        public virtual bool Create(BaseStoreModel<T> model)
+
+        private bool SetId(T model, object id)
+        {
+            foreach (var column in ModelColumns)
+            {
+                if (column.Name == PrimareKey)
+                {
+                    column.Property.SetValue(model, id);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public T Save(T model)
+        {
+            return model.Id == 0
+                        ? Create(model)
+                        : Update(model);
+        }
+        public T Create(T model)
         {
             MySqlParameter[] parameters = GetStoreValues(model);
             if (parameters.Length == 0)
@@ -32,9 +51,18 @@ namespace MySqlRepository
             string query = String.Format("INSERT INTO {0} ({1}) VALUES ({2})",
                 TableName, columns, values);
 
-            return MyDbConnection.Query(query, parameters) == 1;
+            var result = MyDbConnection.Query(query, parameters) == 1;
+            var id = Convert.ToInt32(MyDbConnection.ResponseQuery("SELECT LAST_INSERT_ID() as id").Rows[0][0]);
+            if (SetId(model, id))
+            {
+                return model;
+            }
+            else
+            {
+                throw new Exception("Invalid primary key");
+            }
         }
-        public virtual bool Update(BaseStoreModel<T> model)
+        public T Update(T model)
         {
             MySqlParameter[] parameters = GetUpdateValues(model);
             if (parameters.Length == 0)
@@ -51,10 +79,11 @@ namespace MySqlRepository
             string query = String.Format("UPDATE {0} SET {1} WHERE id={2}",
                 TableName, sintax, model.Id);
 
-            return MyDbConnection.Query(query, parameters) == 1;
+            MyDbConnection.Query(query, parameters);
+            return model;
         }
 
-        protected virtual MySqlParameter[] GetStoreValues(BaseStoreModel<T> model)
+        protected virtual MySqlParameter[] GetStoreValues(IBaseModel model)
         {
             int length = ModelColumns.Count();
             MySqlParameter[] parameters = new MySqlParameter[length];
@@ -66,7 +95,7 @@ namespace MySqlRepository
             }
             return parameters;
         }
-        protected virtual MySqlParameter[] GetUpdateValues(BaseStoreModel<T> model) => GetStoreValues(model);
+        protected virtual MySqlParameter[] GetUpdateValues(IBaseModel model) => GetStoreValues(model);
 
         public int Delete(T model)
         {

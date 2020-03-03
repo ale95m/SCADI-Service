@@ -49,10 +49,10 @@
     <Compile Include="Attributes\NotMaped.cs" />
     <Compile Include="Base\BaseModel.cs" />
     <Compile Include="Base\BaseRepository.cs" />
+    <Compile Include="Base\SingletonBaseRepository.cs" />
+    <Compile Include="Base\SingletonBaseStoreRepository.cs" />
     <Compile Include="Base\BaseStoreRepository.cs" />
-    <Compile Include="Base\BaseStoreModel.cs" />
     <Compile Include="Base\IBaseModel.cs" />
-    <Compile Include="Base\IBaseStoreModel.cs" />
     <Compile Include="SQL\ColumnsFactory.cs" />
     <Compile Include="Attributes\ShowFormat.cs" />
     <Compile Include="SQL\DbColumn.cs" />

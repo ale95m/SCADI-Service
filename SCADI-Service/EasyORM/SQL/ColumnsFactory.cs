@@ -12,6 +12,7 @@ namespace MySqlRepository.Base
     {
         public static IEnumerable<DbColumn> GetColumns(Type type)
         {
+            var a = type.GetProperties();
             foreach (PropertyInfo property in type.GetProperties())
             {
                 var attributes = property.GetCustomAttributes();

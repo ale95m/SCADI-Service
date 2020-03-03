@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MyRepository.Base;
+using MySql.Data.MySqlClient;
 using MySqlRepository.Base;
 using MySqlRepository.SQL;
 using MySqlRepository.SQL.MySql;
@@ -13,12 +14,15 @@ using DbColumn = MySqlRepository.Base.DbColumn;
 
 namespace MySqlRepository
 {
-    public abstract class BaseRepository<T> : IRepository<T> where T : IBaseModel<T>
+    public abstract class BaseRepository<T> : IRepository<T> where T : IBaseModel, new ()
     {
         public abstract string TableName { get; }
         public virtual string PrimareKey { get; } = "id";
 
-        protected abstract T EmptyModel();
+        protected T EmptyModel()
+        {
+            return new T();
+        }
         protected IEnumerable<DbColumn> ModelColumns { get; set; }
 
         public virtual bool SoftDelete => false;
@@ -52,28 +56,31 @@ namespace MySqlRepository
 
         public IEnumerable<T> All()
         {
-            var result = MyDbConnection.SelectQuery(TableName);
-            return CreateModelCollection(result.Rows);
+            MySqlResponseQuery<T> query = new MySqlResponseQuery<T>(this);
+            return query.Get();
         }
 
 
-
-        public virtual T Find(int id)
+        public T FirstOrFail(int id)
         {
             DataRow row = MyDbConnection.SelectById(TableName, id);
-            if (row==null)
+            if (row == null)
             {
-                return null;
+                throw new Exception("Not found");
+            }
+            return CreateModel(row);
+        }
+        public T FirstOrDefault(int id)
+        {
+            DataRow row = MyDbConnection.SelectById(TableName, id);
+            if (row == null)
+            {
+                return EmptyModel();
             }
             return CreateModel(row);
         }
 
-        public T FirstOrFail(int id)
-        {
-            return Find(id) ?? throw new Exception("Not found");
-        }
-
-        IEnumerable<T> IRepository<T>.ExecuteSelectQuery(string query, DbParameter[] parameters)
+        public IEnumerable<T> ExecuteSelectQuery(string query, DbParameter[] parameters)
         {
             var result = MyDbConnection.ResponseQuery(query, parameters);
             return CreateModelCollection(result.Rows);
@@ -89,6 +96,12 @@ namespace MySqlRepository
         {
             MySqlResponseQuery<T> query = new MySqlResponseQuery<T>(this);
             return query.Where(columnName, value);
+        }
+
+        public T Refresh(T model)
+        {
+            model = this.FirstOrDefault(model.Id);
+            return model;
         }
     }
 }

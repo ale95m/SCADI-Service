@@ -10,15 +10,18 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public interface IRepository<T> where T: IBaseModel<T>
+    public interface IRepository<T> where T: IBaseModel
     {
         string PrimareKey { get; }
         bool TimeTamps { get; }
         bool SoftDelete { get; }
         string TableName { get; }
         IEnumerable<T> All();
-        T Find(int id);
+
+        T Refresh(T model);
         T FirstOrFail(int id);
+        T FirstOrDefault(int id);
+
         IEnumerable<T> ExecuteSelectQuery(string query, DbParameter[] parameters);
 
         IResponseQuery<T> Where(string columnName, string @operator, object value);

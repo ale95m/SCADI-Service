@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MySqlRepository
 {
-    public interface IStoreRepository<T> : IRepository<T> where T : IBaseStoreModel<T>
+    public interface IStoreRepository<T> : IRepository<T> where T : IBaseModel
     {
-        bool Create(BaseStoreModel<T> model);
-        bool Update(BaseStoreModel<T> model);
+        T Create(T model);
+        T Update(T model);
+        T Save(T model);
     }
 }

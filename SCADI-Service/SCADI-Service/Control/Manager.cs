@@ -5,15 +5,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace SCADI_Service.Control
 {
     class Manager
     {
+        Timer timer;
         private static readonly Lazy<Manager> instance = new Lazy<Manager>(() => new Manager());
         public static Manager Instance
         {get { return instance.Value; } }
-        private Manager() { }
+        private Manager() 
+        {
+            timer = new Timer(1000);
+            timer.Elapsed += Timer_Elapsed;
+        }
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CheckUpdateDevices();
+        }
 
         List<AccessPoint> APs { get; } = new List<AccessPoint>();
         AccessPointRepository RepositoryAP { get; } = AccessPointRepository.Instance;
@@ -22,24 +32,31 @@ namespace SCADI_Service.Control
         public void CheckUpdateDevices()
         {
             var setting = RepositorySetting.GetSetting();
-            if (setting.UpdateAccesPoints)
+            if (setting.UpdateAccessPoint)
             {
-                setting.SeAccesUpdatedPoints();
-                setting.Save();
-                LoadDevices();
+                setting.SeAccessUpdatedPoints();
+                RepositorySetting.Save(setting);
+                LoadAccessPoints();
             }
         }
+
+        public void Start()
+        {
+            LoadAccessPoints();
+            timer.Start(); 
+        }
+        public void Stop() => timer.Stop();
 
         /// <summary>
         /// Actualiza Los equipos desde la base de datos
         /// </summary>
-        public void LoadDevices()
+        public void LoadAccessPoints()
         {
             List<int> updates = new List<int>();
             foreach (AccessPoint ap in RepositoryAP.All())
             {
                 updates.Add(ap.Id);
-                LoadAP(ap);
+                LoadSingleAP(ap);
             }
             for (int i = 0; i < APs.Count; i++)
             {
@@ -51,7 +68,7 @@ namespace SCADI_Service.Control
             }
         }
 
-        private void LoadAP(AccessPoint ap)
+        private void LoadSingleAP(AccessPoint ap)
         {
             AccessPoint old = APs.FirstOrDefault(x => x.Id == ap.Id);
             if (old == null)

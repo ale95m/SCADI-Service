@@ -10,17 +10,10 @@ namespace SCADI_Service.Repositories
 {
     class ClientRepository : BaseStoreRepository<Client>
     {
-        private static readonly Lazy<ClientRepository> instance = new Lazy<ClientRepository>(() => new ClientRepository());
-        public static ClientRepository Instance { get => instance.Value; }
-        private ClientRepository():base() { }
 
         public override string TableName => "clients";
 
 
         public override bool SoftDelete => true;
-        protected override Client EmptyModel()
-        {
-            return new Client();
-        }
     }
 }
